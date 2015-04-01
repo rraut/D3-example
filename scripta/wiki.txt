@@ -1,0 +1,28 @@
+Findings of d3js depending on acm specific requirement.<br>
+Here is one of basic PDF for d3.js which will give you all major things in d3js. This PDF will help you to see what all types of graphs are there and what all features those graphs has. Example links are given in PDF which helps a lot.
+I got chance to explore force layout of d3.js. I will not write more about what is force layout and how it takes data as all this is mention nicely in PDF. As our main requirement was satisfied by it.
+I have created example based on our need. which you will find in d3-forcelayout repository under acm-spike
+Following are requirements we were looking for
+<br>
+<br>- Structure of data (one node can have n number of
+ parents.) 
+<br>I have attached structure.jpg where in we need to have link from one node to n number of nodes.(we can say we need more than one parent to any node as shown in red circle) Force layout supports this type of structure. 
+<br>- Hierarchical representation.
+  To draw hierarchical representaion of graph using force layout, refer hierarchical-view-with-tooltip.html. 
+  To do this we just need to form our json properly with x and y coordinate for nodes. So that you will get expected view.To show it as tree your nodes should have (x,y) coordinate as shown in tree-formula.jpg. To show relation between two nodes provide source and target in links array. Now here one more customization we did was to draw line depending on disatnce between two nodes. we can do this by specifying line(x1,y1)(x2,y2)=(source.x,source.y)(target.x,target.y)I refered this example http://bl.ocks.org/sathomas/774d02a21dc1c714def8
+ <br>- Showing hundread nodes on a view.
+<br> So to show hundread nodes on a view intially we can keep small circles(nodes), and then we can add Zoom behaviour for clear and zoomed view. you can see this in force-layout-zoom.html. So for this you need to add
+			var zoom = d3.behavior.zoom()
+           .scaleExtent([1, 10])
+           .on("zoom", zoomed);
+And then call zoom on your SVG. 
+			var svg = d3.select("#map").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .call(zoom);	
+function zoomed() {
+          container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }			
+  
+
